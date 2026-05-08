@@ -442,7 +442,7 @@
             <div class="bar"></div>
         </div>
 
-        <div class="listening" id="listening">Ready to listen...</div>
+        <div class="listening" id="listening">Initializing systems...</div>
 
         <div class="conversation" id="conversation"></div>
 
@@ -466,7 +466,7 @@
         </div>
 
         <div class="status info" id="status">
-            Click "Start Listening" to begin
+            JARVIS is initializing...
         </div>
     </div>
 
@@ -781,11 +781,29 @@
             CONFIG.autoSpeak = e.target.checked;
         });
 
+        // Initialize Welcome Message
+        function playWelcomeMessage() {
+            const welcomeMessage = "Hello, welcome, what questions do you have? I have answers!";
+            
+            // Add JARVIS welcome message to conversation
+            addMessage(welcomeMessage, 'ai');
+            
+            // Speak the welcome message
+            speakResponse(welcomeMessage);
+            
+            status.className = 'status success';
+            status.textContent = '✅ JARVIS initialized. Ready to serve.';
+            listening.textContent = 'Ready to listen...';
+        }
+
         // Initialize on load
         window.addEventListener('load', () => {
             initSpeechRecognition();
-            status.className = 'status success';
-            status.textContent = '✅ JARVIS initialized. Ready to serve.';
+            
+            // Give voices time to load before playing welcome
+            setTimeout(() => {
+                playWelcomeMessage();
+            }, 500);
 
             // Load voices when available
             if (window.speechSynthesis.onvoiceschanged !== undefined) {
